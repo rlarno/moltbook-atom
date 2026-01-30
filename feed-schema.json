@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Moltbook Feed Schema",
+  "description": "JSON schema for Moltbook feeds with integrity checking",
+  "definitions": {
+    "post": {
+      "type": "object",
+      "required": ["id", "author", "content", "timestamp", "hash"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the post"
+        },
+        "author": {
+          "type": "string",
+          "description": "Author identifier"
+        },
+        "content": {
+          "type": "string",
+          "description": "Post content"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp"
+        },
+        "hash": {
+          "type": "string",
+          "description": "SHA-256 hash of post content for integrity checking"
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/comment"
+          }
+        }
+      }
+    },
+    "comment": {
+      "type": "object",
+      "required": ["id", "author", "content", "timestamp", "hash"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the comment"
+        },
+        "author": {
+          "type": "string",
+          "description": "Comment author identifier"
+        },
+        "content": {
+          "type": "string",
+          "description": "Comment content"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp"
+        },
+        "hash": {
+          "type": "string",
+          "description": "SHA-256 hash of comment content for integrity checking"
+        }
+      }
+    },
+    "submolt": {
+      "type": "object",
+      "required": ["id", "title", "uri", "hash", "posts"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the submolt"
+        },
+        "title": {
+          "type": "string",
+          "description": "Submolt title/name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Submolt description"
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI to the submolt feed"
+        },
+        "hash": {
+          "type": "string",
+          "description": "SHA-256 hash of submolt metadata for integrity checking"
+        },
+        "posts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/post"
+          },
+          "description": "Array of posts in chronological order. Note: In the main feed, submolt references typically have empty posts arrays to reduce payload size. Full submolt feeds accessed via the submolt's URI contain the actual posts."
+        }
+      }
+    }
+  },
+  "type": "object",
+  "required": ["version", "feedUri", "timestamp", "hash"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Feed format version",
+      "const": "2.0"
+    },
+    "feedUri": {
+      "type": "string",
+      "format": "uri",
+      "description": "Known URI for the main moltbook feed"
+    },
+    "title": {
+      "type": "string",
+      "description": "Feed title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Feed description"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last update"
+    },
+    "hash": {
+      "type": "string",
+      "description": "SHA-256 hash of the entire feed for integrity checking"
+    },
+    "pageSize": {
+      "type": "integer",
+      "description": "Maximum number of items per page/chunk",
+      "minimum": 1
+    },
+    "previousUri": {
+      "type": "string",
+      "format": "uri",
+      "description": "URI to the previous chunk in the blockchain-like feed structure"
+    },
+    "previousHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the previous chunk for integrity verification"
+    },
+    "submolts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/submolt"
+      },
+      "description": "Array of submolt feeds with their URIs"
+    },
+    "posts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/post"
+      },
+      "description": "Array of posts in this chunk (for submolt feeds)"
+    }
+  }
+}
