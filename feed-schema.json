@@ -99,12 +99,12 @@
     }
   },
   "type": "object",
-  "required": ["version", "feedUri", "timestamp", "hash", "submolts"],
+  "required": ["version", "feedUri", "timestamp", "hash"],
   "properties": {
     "version": {
       "type": "string",
       "description": "Feed format version",
-      "const": "1.0"
+      "const": "2.0"
     },
     "feedUri": {
       "type": "string",
@@ -128,12 +128,33 @@
       "type": "string",
       "description": "SHA-256 hash of the entire feed for integrity checking"
     },
+    "pageSize": {
+      "type": "integer",
+      "description": "Maximum number of items per page/chunk",
+      "minimum": 1
+    },
+    "previousUri": {
+      "type": "string",
+      "format": "uri",
+      "description": "URI to the previous chunk in the blockchain-like feed structure"
+    },
+    "previousHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the previous chunk for integrity verification"
+    },
     "submolts": {
       "type": "array",
       "items": {
         "$ref": "#/definitions/submolt"
       },
       "description": "Array of submolt feeds with their URIs"
+    },
+    "posts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/post"
+      },
+      "description": "Array of posts in this chunk (for submolt feeds)"
     }
   }
 }
