@@ -649,6 +649,8 @@ security_controls:
 **Implementation:**
 
 ```python
+from datetime import datetime, timedelta
+
 # HTTP Signature Verification
 def verify_federation_request(request):
     """
@@ -762,6 +764,12 @@ security_controls:
 **Implementation:**
 
 ```python
+import os
+import json
+import base64
+from argon2 import argon2id
+from Crypto.Cipher import AES
+
 class SecureIdentity:
     def __init__(self, password, salt):
         """
@@ -876,6 +884,8 @@ quantum_readiness:
 ### Key Management Best Practices
 
 ```python
+from cryptography.hazmat.primitives.asymmetric import ed25519
+
 # Example: Secure key generation and storage
 class KeyManager:
     def generate_keypair(self):
