@@ -29,13 +29,16 @@ def create_post(post_id: str, author: str, content: str, comments=None):
 
 def create_comment(comment_id: str, author: str, content: str):
     """Create a new comment with proper structure."""
-    return {
+    comment = {
         "id": comment_id,
         "author": author,
         "content": content,
         "timestamp": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
-        "hash": ""  # Will be computed by add_hashes_to_post
     }
+    # Compute hash for the comment
+    from integrity_checker import compute_comment_hash
+    comment['hash'] = compute_comment_hash(comment)
+    return comment
 
 
 def create_submolt(submolt_id: str, title: str, description: str, uri: str, posts=None):

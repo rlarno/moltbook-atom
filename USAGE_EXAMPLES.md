@@ -156,11 +156,18 @@ with open('example-submolt-feed.json', 'w') as f:
     json.dump(submolt, f, indent=2)
 
 # Verify integrity
+from integrity_checker import verify_submolt_hash, verify_post_hash
+
 with open('example-submolt-feed.json', 'r') as f:
     submolt = json.load(f)
 
-results = verify_submolt_hash(submolt)
-if results:
+# Verify submolt hash
+submolt_valid = verify_submolt_hash(submolt)
+
+# Verify all posts
+posts_valid = all(verify_post_hash(post) for post in submolt['posts'])
+
+if submolt_valid and posts_valid:
     print("Submolt integrity verified!")
 else:
     print("Integrity check failed!")

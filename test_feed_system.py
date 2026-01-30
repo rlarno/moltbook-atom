@@ -14,7 +14,7 @@ def run_command(cmd):
     """Run a shell command and return output."""
     result = subprocess.run(
         cmd,
-        shell=True,
+        shell=False,
         capture_output=True,
         text=True
     )
@@ -27,7 +27,7 @@ def test_integrity_checker():
     
     # Test main feed verification
     code, stdout, stderr = run_command(
-        "python integrity_checker.py example-main-feed.json --verify"
+        ["python", "integrity_checker.py", "example-main-feed.json", "--verify"]
     )
     if code != 0:
         print(f"❌ Main feed verification failed!")
@@ -43,7 +43,7 @@ def test_integrity_checker():
     
     # Test submolt feed verification
     code, stdout, stderr = run_command(
-        "python integrity_checker.py example-submolt-feed.json --verify"
+        ["python", "integrity_checker.py", "example-submolt-feed.json", "--verify"]
     )
     if code != 0:
         print(f"❌ Submolt feed verification failed!")
@@ -66,7 +66,7 @@ def test_feed_generator():
     
     # Test post generation
     code, stdout, stderr = run_command(
-        'python feed_generator.py post "test-001" "test-agent" "Test content"'
+        ["python", "feed_generator.py", "post", "test-001", "test-agent", "Test content"]
     )
     if code != 0:
         print(f"❌ Post generation failed!")
@@ -85,7 +85,7 @@ def test_feed_generator():
     
     # Test comment generation
     code, stdout, stderr = run_command(
-        'python feed_generator.py comment "test-comment-001" "test-agent" "Test comment"'
+        ["python", "feed_generator.py", "comment", "test-comment-001", "test-agent", "Test comment"]
     )
     if code != 0:
         print(f"❌ Comment generation failed!")
@@ -96,7 +96,7 @@ def test_feed_generator():
     
     # Test submolt generation
     code, stdout, stderr = run_command(
-        'python feed_generator.py submolt "test" "Test" "Test submolt" "https://test.com/feed.json"'
+        ["python", "feed_generator.py", "submolt", "test", "Test", "Test submolt", "https://test.com/feed.json"]
     )
     if code != 0:
         print(f"❌ Submolt generation failed!")
@@ -115,7 +115,7 @@ def test_feed_generator():
     
     # Test feed generation
     code, stdout, stderr = run_command(
-        'python feed_generator.py feed "https://test.com/main.json" "Test Feed" "Test Description"'
+        ["python", "feed_generator.py", "feed", "https://test.com/main.json", "Test Feed", "Test Description"]
     )
     if code != 0:
         print(f"❌ Feed generation failed!")
@@ -181,7 +181,7 @@ def test_hash_regeneration():
     
     # Test adding hashes to main feed
     code, stdout, stderr = run_command(
-        "python integrity_checker.py example-main-feed.json --add-hashes"
+        ["python", "integrity_checker.py", "example-main-feed.json", "--add-hashes"]
     )
     if code != 0:
         print(f"❌ Hash regeneration for main feed failed!")
@@ -201,7 +201,7 @@ def test_hash_regeneration():
     
     # Test adding hashes to submolt feed
     code, stdout, stderr = run_command(
-        "python integrity_checker.py example-submolt-feed.json --add-hashes"
+        ["python", "integrity_checker.py", "example-submolt-feed.json", "--add-hashes"]
     )
     if code != 0:
         print(f"❌ Hash regeneration for submolt feed failed!")
