@@ -27,3 +27,6 @@ htmlcov/
 # Temporary files
 /tmp/
 *.tmp
+
+# Generated examples
+paginated-examples/
