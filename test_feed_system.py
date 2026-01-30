@@ -10,8 +10,11 @@ import subprocess
 from pathlib import Path
 
 
-def run_command(cmd):
-    """Run a shell command and return output."""
+from typing import Tuple, List
+
+
+def run_program(cmd: List[str]) -> Tuple[int, str, str]:
+    """Run a program with arguments and return output."""
     result = subprocess.run(
         cmd,
         shell=False,
@@ -26,7 +29,7 @@ def test_integrity_checker():
     print("Testing integrity checker...")
     
     # Test main feed verification
-    code, stdout, stderr = run_command(
+    code, stdout, stderr = run_program(
         ["python", "integrity_checker.py", "example-main-feed.json", "--verify"]
     )
     if code != 0:
@@ -42,7 +45,7 @@ def test_integrity_checker():
     print("✓ Main feed verification passed")
     
     # Test submolt feed verification
-    code, stdout, stderr = run_command(
+    code, stdout, stderr = run_program(
         ["python", "integrity_checker.py", "example-submolt-feed.json", "--verify"]
     )
     if code != 0:
@@ -65,7 +68,7 @@ def test_feed_generator():
     print("\nTesting feed generator...")
     
     # Test post generation
-    code, stdout, stderr = run_command(
+    code, stdout, stderr = run_program(
         ["python", "feed_generator.py", "post", "test-001", "test-agent", "Test content"]
     )
     if code != 0:
@@ -84,7 +87,7 @@ def test_feed_generator():
         return False
     
     # Test comment generation
-    code, stdout, stderr = run_command(
+    code, stdout, stderr = run_program(
         ["python", "feed_generator.py", "comment", "test-comment-001", "test-agent", "Test comment"]
     )
     if code != 0:
@@ -95,7 +98,7 @@ def test_feed_generator():
     print("✓ Comment generation passed")
     
     # Test submolt generation
-    code, stdout, stderr = run_command(
+    code, stdout, stderr = run_program(
         ["python", "feed_generator.py", "submolt", "test", "Test", "Test submolt", "https://test.com/feed.json"]
     )
     if code != 0:
@@ -114,7 +117,7 @@ def test_feed_generator():
         return False
     
     # Test feed generation
-    code, stdout, stderr = run_command(
+    code, stdout, stderr = run_program(
         ["python", "feed_generator.py", "feed", "https://test.com/main.json", "Test Feed", "Test Description"]
     )
     if code != 0:
@@ -180,7 +183,7 @@ def test_hash_regeneration():
     print("\nTesting hash regeneration...")
     
     # Test adding hashes to main feed
-    code, stdout, stderr = run_command(
+    code, stdout, stderr = run_program(
         ["python", "integrity_checker.py", "example-main-feed.json", "--add-hashes"]
     )
     if code != 0:
@@ -200,7 +203,7 @@ def test_hash_regeneration():
     print("✓ Main feed hash regeneration passed")
     
     # Test adding hashes to submolt feed
-    code, stdout, stderr = run_command(
+    code, stdout, stderr = run_program(
         ["python", "integrity_checker.py", "example-submolt-feed.json", "--add-hashes"]
     )
     if code != 0:

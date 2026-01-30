@@ -261,22 +261,24 @@ if __name__ == '__main__':
     import sys
     
     if len(sys.argv) < 2:
-        print("Usage: python integrity_checker.py <feed.json> [--verify|--add-hashes] [--type main|submolt]")
+        print("Usage: python integrity_checker.py <feed.json> [--verify (default)|--add-hashes] [--type main|submolt]")
         sys.exit(1)
     
     feed_file = sys.argv[1]
     mode = sys.argv[2] if len(sys.argv) > 2 else '--verify'
     feed_type = sys.argv[3] if len(sys.argv) > 3 else None
     
-    with open(feed_file, 'r') as f:
-        feed_data = json.load(f)
-    
     # Auto-detect feed type if not specified
     if feed_type is None:
+        with open(feed_file, 'r') as f:
+            feed_data = json.load(f)
         if 'submolts' in feed_data:
             feed_type = 'main'
         else:
             feed_type = 'submolt'
+    else:
+        with open(feed_file, 'r') as f:
+            feed_data = json.load(f)
     
     if mode == '--add-hashes':
         # Add hashes based on feed type

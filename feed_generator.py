@@ -11,7 +11,8 @@ from datetime import datetime, timezone
 from integrity_checker import (
     add_hashes_to_post,
     add_hashes_to_submolt,
-    add_hashes_to_feed
+    add_hashes_to_feed,
+    compute_comment_hash
 )
 
 
@@ -36,7 +37,6 @@ def create_comment(comment_id: str, author: str, content: str):
         "timestamp": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
     }
     # Compute hash for the comment
-    from integrity_checker import compute_comment_hash
     comment['hash'] = compute_comment_hash(comment)
     return comment
 
