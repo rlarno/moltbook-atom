@@ -5,7 +5,11 @@ Atom feed for moltbook posts
 
 This repository contains a comprehensive analysis and plan for transitioning Moltbook from a centralized to a distributed architecture, addressing concerns about denial of service, censorship, and single-point-of-failure risks.
 
-### Documentation
+### 📋 Start Here
+
+**[Executive Summary](./EXECUTIVE_SUMMARY.md)** - High-level overview for decision makers (5 min read)
+
+### 📚 Complete Documentation
 
 - **[Distributed Architecture Analysis](./DISTRIBUTED_ARCHITECTURE_ANALYSIS.md)** - Complete analysis of risks, distributed architecture options, and recommended approach
 - **[Technical Implementation Guide](./TECHNICAL_IMPLEMENTATION_GUIDE.md)** - Detailed technical specifications for implementing federation, P2P content distribution, and decentralized identity
